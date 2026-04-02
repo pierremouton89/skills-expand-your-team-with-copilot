@@ -568,6 +568,17 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         `
         }
+        <div class="share-buttons">
+          <button class="share-button share-copy" data-activity="${name}" title="Copy activity info">
+            📋 Copy
+          </button>
+          <a class="share-button share-twitter" href="https://x.com/intent/tweet?text=${encodeURIComponent(`Check out ${name} at Mergington High School! ${details.description} Schedule: ${formattedSchedule}`)}" target="_blank" rel="noopener noreferrer" title="Share on X (Twitter)">
+            𝕏 Share
+          </a>
+          <a class="share-button share-whatsapp" href="https://wa.me/?text=${encodeURIComponent(`Check out ${name} at Mergington High School!\n${details.description}\nSchedule: ${formattedSchedule}`)}" target="_blank" rel="noopener noreferrer" title="Share on WhatsApp">
+            💬 WhatsApp
+          </a>
+        </div>
       </div>
     `;
 
@@ -576,6 +587,43 @@ document.addEventListener("DOMContentLoaded", () => {
     deleteButtons.forEach((button) => {
       button.addEventListener("click", handleUnregister);
     });
+
+    // Add click handler for copy share button
+    const copyButton = activityCard.querySelector(".share-copy");
+    if (copyButton) {
+      copyButton.addEventListener("click", () => {
+        const shareText = `${name} at Mergington High School\n${details.description}\nSchedule: ${formattedSchedule}`;
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(shareText).then(() => {
+            copyButton.textContent = "✅ Copied!";
+            setTimeout(() => {
+              copyButton.textContent = "📋 Copy";
+            }, 2000);
+          }).catch(() => {
+            showMessage("Could not copy to clipboard.", "error");
+          });
+        } else {
+          // Fallback for non-secure contexts
+          const textArea = document.createElement("textarea");
+          textArea.value = shareText;
+          textArea.style.position = "fixed";
+          textArea.style.opacity = "0";
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          try {
+            document.execCommand("copy");
+            copyButton.textContent = "✅ Copied!";
+            setTimeout(() => {
+              copyButton.textContent = "📋 Copy";
+            }, 2000);
+          } catch {
+            showMessage("Could not copy to clipboard.", "error");
+          }
+          document.body.removeChild(textArea);
+        }
+      });
+    }
 
     // Add click handler for register button (only when authenticated)
     if (currentUser) {
