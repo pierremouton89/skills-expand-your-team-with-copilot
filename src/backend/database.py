@@ -166,12 +166,12 @@ initial_activities = {
     },
     "Manga Maniacs": {
         "description": "Dive into the thrilling world of Japanese manga — epic battles, heartfelt friendships, and unforgettable heroes await! From shonen adventures to slice-of-life gems, discover stories that will ignite your imagination and keep you turning pages.",
-        "schedule": "Tuesdays, 7:00 PM",
+        "schedule": "Tuesdays, 5:00 PM",
         "schedule_details": {
             "days": ["Tuesday"],
-            "start_time": "19:00"
+            "start_time": "17:00"
         },
-        "max_participants": 15,
+        "max_participants": 25,
         "participants": []
     }
 }
